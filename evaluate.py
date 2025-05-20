@@ -3,25 +3,25 @@ from tokenizer import isIdentifier
 def toPostfix(tokens):
   output = []
   operators = []
-  precedence = {'NEG': 3, '*': 2, '/': 2, '+': 1, '-': 1}
-  associativity = {'NEG': 'R', '*': 'L', '/': 'L', '+': 'L', '-': 'L'}
+  precedence = {'*': 2, '+': 1, '-': 1}
 
   prev_token = None
-  
+
   for token in tokens:
     if token.isdigit() or isIdentifier(token):
       output.append(token)
       prev_token = 'number'
-    elif token == '-' and (prev_token is None or prev_token in ('operator', '(',)):
-      # This is a unary minus
-      while (operators and precedence.get(operators[-1], 0) > precedence['NEG']):
-          output.append(operators.pop())
-      operators.append('NEG')
-      prev_token = 'operator'
     elif token in ('+', '-', '*'):
+      if token == '-' and (prev_token is None or prev_token in ('operator', '(')):
+        output.append('-1')
+        token = '*'
+      elif token == '+' and (prev_token is None or prev_token in ('operator', '(')):
+        output.append('1')
+        token = '*'
+      elif token == '*' and (prev_token is None or prev_token in ('operator', '(')):
+        raise ValueError("Invalid '*'")
       while (operators and operators[-1] != '(' and
-          (precedence[operators[-1]] > precedence[token] or
-          (precedence[operators[-1]] == precedence[token] and associativity[token] == 'L'))):
+            (precedence[operators[-1]] >= precedence[token])):
         output.append(operators.pop())
       operators.append(token)
       prev_token = 'operator'
@@ -30,21 +30,20 @@ def toPostfix(tokens):
       prev_token = '('
     elif token == ')':
       while operators and operators[-1] != '(':
-          output.append(operators.pop())
+        output.append(operators.pop())
       if not operators or operators[-1] != '(':
-          raise ValueError("Mismatched parentheses")
+        raise ValueError("Mismatched parentheses")
       operators.pop()
       prev_token = 'number'
     else:
       raise ValueError(f"Unknown token: {token}")
 
-  #print(operators)
   while operators:
     op = operators.pop()
     if op == '(':
       raise ValueError("Mismatched Parentheses")
     output.append(op)
-  
+
   return output
 
 def evaluateExpression(tokens, variables):
@@ -57,13 +56,10 @@ def evaluateExpression(tokens, variables):
 
   for token in tokens:
     #print(f"evaluating {token}")
-    if token.isdigit():
+    if token.isnumeric() or token == '-1':
       stack.append(int(token))
     elif token in variables:
       stack.append(variables[token])
-    elif token == 'NEG':
-      a = stack.pop()
-      stack.append(-a)
     elif token in ('+', '-', '*'):
       b = stack.pop()
       a = stack.pop()
