@@ -86,7 +86,7 @@ def tokenize(input):
     elif current == ';':
       i += 1
       if i < len(input):
-        raise Exception(f"Line continues after semicolon {i} < {len(input)}: {input}")
+        raise Exception(f"Missing semicolon {i} < {len(input)}")
     else:
       raise Exception(f"Invalid syntax with line {input} at index {i}: {current}")
   

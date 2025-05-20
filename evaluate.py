@@ -32,16 +32,18 @@ def toPostfix(tokens):
       while operators and operators[-1] != '(':
         output.append(operators.pop())
       if not operators or operators[-1] != '(':
-        raise ValueError("Mismatched parentheses")
+        raise ValueError("Mismatched ')' parentheses")
       operators.pop()
       prev_token = 'number'
+    elif token == '=':
+      raise SyntaxError(f"Invalid syntax")
     else:
-      raise ValueError(f"Unknown token: {token}")
+      raise ValueError(f"Unknown token '{token}'")
 
   while operators:
     op = operators.pop()
     if op == '(':
-      raise ValueError("Mismatched Parentheses")
+      raise ValueError("Mismatched '(' Parentheses")
     output.append(op)
 
   return output
