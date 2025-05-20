@@ -63,9 +63,9 @@ Your interpreter should be able to do the following for a given program:
 
 ### Input 3
 
-   x = 0
-   y = x;
-   z = ---(x+y);
+   x = 0  
+   y = x;  
+   z = ---(x+y);  
 
 ### Output 3
 
@@ -73,13 +73,13 @@ Your interpreter should be able to do the following for a given program:
 
 ### Input 4
 
-   x = 1;
-   y = 2;
-   z = ---(x+y)*(x+-y);
+   x = 1;  
+   y = 2;  
+   z = ---(x+y)*(x+-y);  
 
 ### Output 4
 
-   x = 1
-   y = 2
-   z = 3
+   x = 1  
+   y = 2  
+   z = 3  
 
