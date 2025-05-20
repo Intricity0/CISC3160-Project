@@ -8,7 +8,7 @@ def print_result(variables):
 def main():
   try:
     if (len(sys.argv) == 1):
-      raise Exception('Incorrect usage. Expected "project.py <input file>"')
+      raise Exception('Incorrect usage. Expected "main.py <input file>"')
   
     input_file = sys.argv[1]
     print(input_file)
@@ -29,4 +29,6 @@ def main():
       print(f"{e}: {line}")
   except Exception as e:
     print(f"{e}")
-main()
+
+if __name__ == "__main__":
+  main()
