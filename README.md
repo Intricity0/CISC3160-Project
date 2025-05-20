@@ -1,6 +1,6 @@
-Eugene Ye
-CISC 3160
-Project
+Eugene Ye  
+CISC 3160  
+Project  
 
 
 # Project
